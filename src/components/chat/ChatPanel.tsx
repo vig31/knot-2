@@ -70,7 +70,12 @@ export function ChatPanel({ channelId }: { channelId: string }) {
       </div>
 
       {/* Messages */}
-      <div className="flex-1 overflow-y-auto px-6 py-4 space-y-1">
+      <div
+        role="log"
+        aria-label="Chat messages"
+        aria-live="polite"
+        className="flex-1 overflow-y-auto px-6 py-4 space-y-1"
+      >
         {messages.map((msg, i) => {
           const grouped = shouldGroup(messages[i - 1], msg)
           return (
@@ -98,7 +103,11 @@ export function ChatPanel({ channelId }: { channelId: string }) {
       {/* Input */}
       <div className="px-6 py-4 border-t border-[#2A2A2A] shrink-0">
         <div className="flex items-center gap-2">
+          <label htmlFor="chat-input" className="sr-only">
+            Message {getChannelDisplayName()}
+          </label>
           <input
+            id="chat-input"
             type="text"
             value={input}
             onChange={(e) => setInput(e.target.value)}
@@ -110,9 +119,10 @@ export function ChatPanel({ channelId }: { channelId: string }) {
           <button
             onClick={handleSend}
             disabled={!input.trim()}
+            aria-label="Send message"
             className="p-3 rounded-lg bg-[#F97316] text-white hover:bg-[#EA6C0E] disabled:opacity-40 disabled:cursor-not-allowed transition-colors cursor-pointer"
           >
-            <Send size={18} />
+            <Send size={18} aria-hidden="true" />
           </button>
         </div>
       </div>

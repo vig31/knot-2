@@ -23,7 +23,7 @@ export default function Navbar() {
   }
 
   return (
-    <nav className="fixed top-0 left-0 right-0 z-50 border-b border-[#2A2A2A] bg-[#0F0F0F]/80 backdrop-blur-xl">
+    <nav aria-label="Main" className="fixed top-0 left-0 right-0 z-50 border-b border-[#2A2A2A] bg-[#0F0F0F]/80 backdrop-blur-xl">
       <div className="mx-auto flex max-w-7xl items-center justify-between px-6 py-4">
         {/* Logo */}
         <Link href="/" className="text-2xl font-bold text-[#F5F5F5]">
@@ -64,15 +64,17 @@ export default function Navbar() {
         <button
           className="text-[#F5F5F5] md:hidden"
           onClick={() => setMobileOpen(!mobileOpen)}
-          aria-label="Toggle menu"
+          aria-label="Toggle navigation menu"
+          aria-expanded={mobileOpen}
+          aria-controls="mobile-nav-menu"
         >
-          {mobileOpen ? <X size={24} /> : <Menu size={24} />}
+          {mobileOpen ? <X size={24} aria-hidden="true" /> : <Menu size={24} aria-hidden="true" />}
         </button>
       </div>
 
       {/* Mobile menu */}
       {mobileOpen && (
-        <div className="border-t border-[#2A2A2A] bg-[#0F0F0F] px-6 py-4 md:hidden">
+        <div id="mobile-nav-menu" className="border-t border-[#2A2A2A] bg-[#0F0F0F] px-6 py-4 md:hidden">
           <div className="flex flex-col gap-4">
             {navLinks.map((link) => (
               <a

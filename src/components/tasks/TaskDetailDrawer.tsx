@@ -1,5 +1,6 @@
 'use client'
 
+import { useRef, useEffect } from 'react'
 import { X, Trash2 } from 'lucide-react'
 import { useTaskStore } from '@/stores/taskStore'
 import { useAuthStore } from '@/stores/authStore'
@@ -19,6 +20,25 @@ export default function TaskDetailDrawer() {
     useTaskStore()
   const members = useAuthStore((s) => s.members)
 
+  // Refs for focus management — must be declared before any early returns
+  const closeBtnRef = useRef<HTMLButtonElement>(null)
+
+  // Focus the close button whenever a task is selected
+  useEffect(() => {
+    if (!selectedTaskId) return
+    closeBtnRef.current?.focus()
+  }, [selectedTaskId])
+
+  // Close the drawer on Escape
+  useEffect(() => {
+    if (!selectedTaskId) return
+    const handleEscape = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') selectTask(null)
+    }
+    document.addEventListener('keydown', handleEscape)
+    return () => document.removeEventListener('keydown', handleEscape)
+  }, [selectedTaskId, selectTask])
+
   if (!selectedTaskId) return null
 
   const task = tasks[selectedTaskId]
@@ -32,11 +52,17 @@ export default function TaskDetailDrawer() {
   }
 
   return (
-    <div className="fixed inset-y-0 right-0 z-40 w-[400px] bg-[#1A1A1A] border-l border-[#2A2A2A] shadow-2xl flex flex-col">
+    <div
+      role="dialog"
+      aria-modal="true"
+      aria-label="Task details"
+      className="fixed inset-y-0 right-0 z-40 w-[400px] bg-[#1A1A1A] border-l border-[#2A2A2A] shadow-2xl flex flex-col"
+    >
       {/* Header */}
       <div className="flex items-center justify-between px-5 py-4 border-b border-[#2A2A2A]">
         <div className="flex items-center gap-2">
           <span
+            aria-hidden="true"
             className="w-3 h-3 rounded-full"
             style={{ backgroundColor: TASK_TYPE_COLORS[task.type] }}
           />
@@ -45,10 +71,12 @@ export default function TaskDetailDrawer() {
           </span>
         </div>
         <button
+          ref={closeBtnRef}
           onClick={() => selectTask(null)}
+          aria-label="Close task details"
           className="text-[#6B7280] hover:text-[#F5F5F5] transition-colors"
         >
-          <X size={20} />
+          <X size={20} aria-hidden="true" />
         </button>
       </div>
 
@@ -56,7 +84,9 @@ export default function TaskDetailDrawer() {
       <div className="flex-1 overflow-y-auto p-5 space-y-5">
         {/* Title */}
         <input
+          id="drawer-title"
           type="text"
+          aria-label="Task title"
           value={task.title}
           onChange={(e) => updateTask(task.id, { title: e.target.value })}
           className="w-full text-lg font-semibold text-[#F5F5F5] bg-transparent border-none outline-none focus:ring-0 placeholder:text-[#6B7280]"
@@ -64,10 +94,11 @@ export default function TaskDetailDrawer() {
 
         {/* Status */}
         <div>
-          <label className="block text-xs text-[#6B7280] mb-1.5 uppercase tracking-wide">
+          <label htmlFor="drawer-status" className="block text-xs text-[#6B7280] mb-1.5 uppercase tracking-wide">
             Status
           </label>
           <select
+            id="drawer-status"
             value={task.status}
             onChange={(e) =>
               updateTask(task.id, { status: e.target.value as TaskStatus })
@@ -84,10 +115,11 @@ export default function TaskDetailDrawer() {
 
         {/* Priority */}
         <div>
-          <label className="block text-xs text-[#6B7280] mb-1.5 uppercase tracking-wide">
+          <label htmlFor="drawer-priority" className="block text-xs text-[#6B7280] mb-1.5 uppercase tracking-wide">
             Priority
           </label>
           <select
+            id="drawer-priority"
             value={task.priority}
             onChange={(e) =>
               updateTask(task.id, { priority: e.target.value as TaskPriority })
@@ -104,10 +136,11 @@ export default function TaskDetailDrawer() {
 
         {/* Type */}
         <div>
-          <label className="block text-xs text-[#6B7280] mb-1.5 uppercase tracking-wide">
+          <label htmlFor="drawer-type" className="block text-xs text-[#6B7280] mb-1.5 uppercase tracking-wide">
             Type
           </label>
           <select
+            id="drawer-type"
             value={task.type}
             onChange={(e) =>
               updateTask(task.id, { type: e.target.value as TaskType })
@@ -124,10 +157,11 @@ export default function TaskDetailDrawer() {
 
         {/* Assignee */}
         <div>
-          <label className="block text-xs text-[#6B7280] mb-1.5 uppercase tracking-wide">
+          <label htmlFor="drawer-assignee" className="block text-xs text-[#6B7280] mb-1.5 uppercase tracking-wide">
             Assignee
           </label>
           <select
+            id="drawer-assignee"
             value={task.assigneeId ?? ''}
             onChange={(e) =>
               updateTask(task.id, {
@@ -147,10 +181,11 @@ export default function TaskDetailDrawer() {
 
         {/* Due Date */}
         <div>
-          <label className="block text-xs text-[#6B7280] mb-1.5 uppercase tracking-wide">
+          <label htmlFor="drawer-due-date" className="block text-xs text-[#6B7280] mb-1.5 uppercase tracking-wide">
             Due Date
           </label>
           <input
+            id="drawer-due-date"
             type="date"
             value={task.dueDate ?? ''}
             onChange={(e) =>
@@ -162,10 +197,11 @@ export default function TaskDetailDrawer() {
 
         {/* Description */}
         <div>
-          <label className="block text-xs text-[#6B7280] mb-1.5 uppercase tracking-wide">
+          <label htmlFor="drawer-description" className="block text-xs text-[#6B7280] mb-1.5 uppercase tracking-wide">
             Description
           </label>
           <textarea
+            id="drawer-description"
             value={task.description ?? ''}
             onChange={(e) =>
               updateTask(task.id, { description: e.target.value || undefined })
@@ -190,6 +226,7 @@ export default function TaskDetailDrawer() {
                   className="w-full flex items-center gap-2 px-3 py-2 bg-[#0F0F0F] border border-[#2A2A2A] rounded-lg text-left hover:border-[#3A3A3A] transition-colors"
                 >
                   <span
+                    aria-hidden="true"
                     className="w-2 h-2 rounded-full flex-shrink-0"
                     style={{ backgroundColor: TASK_TYPE_COLORS[child.type] }}
                   />
@@ -212,7 +249,7 @@ export default function TaskDetailDrawer() {
           onClick={handleDelete}
           className="flex items-center gap-2 px-4 py-2 text-sm text-red-400 hover:text-red-300 hover:bg-red-400/10 rounded-lg transition-colors w-full justify-center"
         >
-          <Trash2 size={16} />
+          <Trash2 size={16} aria-hidden="true" />
           Delete Task
         </button>
       </div>

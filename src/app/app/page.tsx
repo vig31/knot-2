@@ -16,21 +16,21 @@ export default function AppHomePage() {
             href="/app/org1/chat/c1"
             className="flex items-center justify-center gap-2 px-6 py-3 bg-[#F97316] text-white rounded-lg hover:bg-[#EA6C0E] transition-colors font-medium"
           >
-            <MessageSquare size={18} />
+            <MessageSquare size={18} aria-hidden="true" />
             Open Chat
           </Link>
           <Link
             href="/app/org1/tasks/p1"
             className="flex items-center justify-center gap-2 px-6 py-3 bg-[#1A1A1A] border border-[#2A2A2A] text-[#F5F5F5] rounded-lg hover:bg-[#2A2A2A] transition-colors font-medium"
           >
-            <CheckSquare size={18} />
+            <CheckSquare size={18} aria-hidden="true" />
             View Tasks
           </Link>
           <Link
             href="/app/org1/mindmap/mm1"
             className="flex items-center justify-center gap-2 px-6 py-3 bg-[#1A1A1A] border border-[#2A2A2A] text-[#F5F5F5] rounded-lg hover:bg-[#2A2A2A] transition-colors font-medium"
           >
-            <GitBranch size={18} />
+            <GitBranch size={18} aria-hidden="true" />
             Explore Mind Maps
           </Link>
         </div>

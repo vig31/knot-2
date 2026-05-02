@@ -83,11 +83,11 @@ export default function TaskTable({ projectId }: { projectId: string }) {
 
   const SortIcon = ({ field }: { field: SortField }) => {
     if (sortField !== field)
-      return <ArrowUpDown size={12} className="text-[#6B7280]" />
+      return <ArrowUpDown size={12} aria-hidden="true" className="text-[#6B7280]" />
     return sortDir === 'asc' ? (
-      <ArrowUp size={12} className="text-[#F97316]" />
+      <ArrowUp size={12} aria-hidden="true" className="text-[#F97316]" />
     ) : (
-      <ArrowDown size={12} className="text-[#F97316]" />
+      <ArrowDown size={12} aria-hidden="true" className="text-[#F97316]" />
     )
   }
 
@@ -102,14 +102,29 @@ export default function TaskTable({ projectId }: { projectId: string }) {
 
   return (
     <div className="w-full overflow-x-auto rounded-xl border border-[#2A2A2A]">
-      <table className="w-full">
+      <table className="w-full" aria-label="Tasks">
         <thead>
           <tr className="bg-[#1A1A1A]">
             {columns.map((col) => (
               <th
                 key={col.key}
+                scope="col"
+                aria-sort={
+                  sortField === col.key
+                    ? sortDir === 'asc'
+                      ? 'ascending'
+                      : 'descending'
+                    : 'none'
+                }
+                tabIndex={0}
                 className={`px-4 py-3 text-left text-xs font-medium text-[#6B7280] uppercase tracking-wide cursor-pointer hover:text-[#F5F5F5] select-none ${col.className ?? ''}`}
                 onClick={() => toggleSort(col.key)}
+                onKeyDown={(e) => {
+                  if (e.key === 'Enter' || e.key === ' ') {
+                    e.preventDefault()
+                    toggleSort(col.key)
+                  }
+                }}
               >
                 <div className="flex items-center gap-1.5">
                   {col.label}
@@ -167,6 +182,13 @@ function TaskRow({
   return (
     <tr
       onClick={onClick}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          onClick()
+        }
+      }}
+      tabIndex={0}
       className={`border-b border-[#2A2A2A] cursor-pointer hover:bg-[#1A1A1A] transition-colors ${
         odd ? 'bg-[#131313]' : 'bg-[#0F0F0F]'
       }`}
@@ -175,6 +197,7 @@ function TaskRow({
       <td className="px-4 py-3">
         <div className="flex items-center gap-1.5">
           <span
+            aria-hidden="true"
             className="w-2.5 h-2.5 rounded-full"
             style={{ backgroundColor: TASK_TYPE_COLORS[task.type] }}
           />
@@ -202,6 +225,7 @@ function TaskRow({
           }}
         >
           <span
+            aria-hidden="true"
             className="w-1.5 h-1.5 rounded-full"
             style={{ backgroundColor: PRIORITY_COLORS[task.priority] }}
           />
@@ -213,7 +237,10 @@ function TaskRow({
       <td className="px-4 py-3">
         {initials ? (
           <div className="flex items-center gap-2">
-            <div className="w-6 h-6 rounded-full bg-[#F97316]/30 flex items-center justify-center text-[10px] font-medium text-[#F97316]">
+            <div
+              aria-hidden="true"
+              className="w-6 h-6 rounded-full bg-[#F97316]/30 flex items-center justify-center text-[10px] font-medium text-[#F97316]"
+            >
               {initials}
             </div>
             <span className="text-sm text-[#6B7280]">{assignee?.name}</span>
@@ -251,6 +278,7 @@ function StatusBadge({ status }: { status: TaskStatus }) {
       }}
     >
       <span
+        aria-hidden="true"
         className="w-1.5 h-1.5 rounded-full"
         style={{ backgroundColor: color }}
       />

@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import { X } from 'lucide-react'
 import { useTaskStore } from '@/stores/taskStore'
 import type { TaskType, TaskPriority } from '@/types'
@@ -20,6 +20,44 @@ export default function AddTaskModal({ projectId, open, onClose }: AddTaskModalP
   const [title, setTitle] = useState('')
   const [type, setType] = useState<TaskType>('task')
   const [priority, setPriority] = useState<TaskPriority>('medium')
+  const modalRef = useRef<HTMLDivElement>(null)
+
+  // Close on Escape + focus trap
+  useEffect(() => {
+    if (!open) return
+
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (e.key === 'Escape') {
+        onClose()
+        return
+      }
+      if (e.key === 'Tab') {
+        const modal = modalRef.current
+        if (!modal) return
+        const focusables = Array.from(
+          modal.querySelectorAll<HTMLElement>(
+            'button:not([disabled]), input, select, textarea, [tabindex]:not([tabindex="-1"])'
+          )
+        )
+        const first = focusables[0]
+        const last = focusables[focusables.length - 1]
+        if (e.shiftKey) {
+          if (document.activeElement === first) {
+            e.preventDefault()
+            last.focus()
+          }
+        } else {
+          if (document.activeElement === last) {
+            e.preventDefault()
+            first.focus()
+          }
+        }
+      }
+    }
+
+    document.addEventListener('keydown', handleKeyDown)
+    return () => document.removeEventListener('keydown', handleKeyDown)
+  }, [open, onClose])
 
   if (!open) return null
 
@@ -44,25 +82,34 @@ export default function AddTaskModal({ projectId, open, onClose }: AddTaskModalP
       <div
         className="absolute inset-0 bg-black/60"
         onClick={onClose}
+        aria-hidden="true"
       />
 
       {/* Modal card */}
-      <div className="relative z-10 w-full max-w-md bg-[#1A1A1A] border border-[#2A2A2A] rounded-xl p-6 shadow-2xl">
+      <div
+        ref={modalRef}
+        role="dialog"
+        aria-modal="true"
+        aria-labelledby="add-task-modal-title"
+        className="relative z-10 w-full max-w-md bg-[#1A1A1A] border border-[#2A2A2A] rounded-xl p-6 shadow-2xl"
+      >
         <div className="flex items-center justify-between mb-6">
-          <h2 className="text-lg font-semibold text-[#F5F5F5]">Create Task</h2>
+          <h2 id="add-task-modal-title" className="text-lg font-semibold text-[#F5F5F5]">Create Task</h2>
           <button
             onClick={onClose}
+            aria-label="Close dialog"
             className="text-[#6B7280] hover:text-[#F5F5F5] transition-colors"
           >
-            <X size={20} />
+            <X size={20} aria-hidden="true" />
           </button>
         </div>
 
         <div className="space-y-4">
           {/* Title */}
           <div>
-            <label className="block text-sm text-[#6B7280] mb-1.5">Title *</label>
+            <label htmlFor="add-task-title" className="block text-sm text-[#6B7280] mb-1.5">Title *</label>
             <input
+              id="add-task-title"
               type="text"
               value={title}
               onChange={(e) => setTitle(e.target.value)}
@@ -75,12 +122,13 @@ export default function AddTaskModal({ projectId, open, onClose }: AddTaskModalP
 
           {/* Type */}
           <div>
-            <label className="block text-sm text-[#6B7280] mb-1.5">Type</label>
-            <div className="flex flex-wrap gap-2">
+            <p id="add-task-type-label" className="block text-sm text-[#6B7280] mb-1.5">Type</p>
+            <div role="group" aria-labelledby="add-task-type-label" className="flex flex-wrap gap-2">
               {TASK_TYPES.map((t) => (
                 <button
                   key={t}
                   onClick={() => setType(t)}
+                  aria-pressed={type === t}
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm capitalize border transition-colors ${
                     type === t
                       ? 'border-[#F97316] bg-[#F97316]/10 text-[#F5F5F5]'
@@ -88,6 +136,7 @@ export default function AddTaskModal({ projectId, open, onClose }: AddTaskModalP
                   }`}
                 >
                   <span
+                    aria-hidden="true"
                     className="w-2.5 h-2.5 rounded-full"
                     style={{ backgroundColor: TASK_TYPE_COLORS[t] }}
                   />
@@ -99,12 +148,13 @@ export default function AddTaskModal({ projectId, open, onClose }: AddTaskModalP
 
           {/* Priority */}
           <div>
-            <label className="block text-sm text-[#6B7280] mb-1.5">Priority</label>
-            <div className="flex flex-wrap gap-2">
+            <p id="add-task-priority-label" className="block text-sm text-[#6B7280] mb-1.5">Priority</p>
+            <div role="group" aria-labelledby="add-task-priority-label" className="flex flex-wrap gap-2">
               {PRIORITIES.map((p) => (
                 <button
                   key={p}
                   onClick={() => setPriority(p)}
+                  aria-pressed={priority === p}
                   className={`flex items-center gap-1.5 px-3 py-1.5 rounded-md text-sm capitalize border transition-colors ${
                     priority === p
                       ? 'border-[#F97316] bg-[#F97316]/10 text-[#F5F5F5]'
@@ -112,6 +162,7 @@ export default function AddTaskModal({ projectId, open, onClose }: AddTaskModalP
                   }`}
                 >
                   <span
+                    aria-hidden="true"
                     className="w-2.5 h-2.5 rounded-full"
                     style={{ backgroundColor: PRIORITY_COLORS[p] }}
                   />

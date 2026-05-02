@@ -66,10 +66,18 @@ function DraggableCard({ task }: { task: Task }) {
       {...attributes}
       {...listeners}
       onClick={() => selectTask(task.id)}
+      onKeyDown={(e) => {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault()
+          selectTask(task.id)
+        }
+      }}
+      aria-label={`${task.title}, ${task.type}, ${task.priority} priority`}
       className="bg-[#0F0F0F] border border-[#2A2A2A] rounded-lg p-3 mb-2 cursor-grab hover:border-[#3A3A3A] transition-colors"
     >
       {/* Priority left border indicator */}
       <div
+        aria-hidden="true"
         className="absolute left-0 top-2 bottom-2 w-0.5 rounded-full"
         style={{ backgroundColor: PRIORITY_COLORS[task.priority] }}
       />
@@ -77,6 +85,7 @@ function DraggableCard({ task }: { task: Task }) {
       {/* Type badge */}
       <div className="flex items-center gap-1.5 mb-2">
         <span
+          aria-hidden="true"
           className="w-2 h-2 rounded-full flex-shrink-0"
           style={{ backgroundColor: TASK_TYPE_COLORS[task.type] }}
         />
@@ -94,6 +103,7 @@ function DraggableCard({ task }: { task: Task }) {
           <div
             className="w-6 h-6 rounded-full flex items-center justify-center text-[10px] font-medium text-white"
             style={{ backgroundColor: TASK_TYPE_COLORS[task.type] + '80' }}
+            aria-label={assignee?.name}
             title={assignee?.name}
           >
             {initials}
@@ -103,7 +113,7 @@ function DraggableCard({ task }: { task: Task }) {
         )}
         {task.dueDate && (
           <div className="flex items-center gap-1 text-xs text-[#6B7280]">
-            <Calendar size={10} />
+            <Calendar size={10} aria-hidden="true" />
             <span>{task.dueDate}</span>
           </div>
         )}
@@ -126,6 +136,7 @@ function DroppableColumn({
   return (
     <div
       ref={setNodeRef}
+      aria-label={`${STATUS_LABELS[status]} column, ${tasks.length} task${tasks.length !== 1 ? 's' : ''}`}
       className={`bg-[#1A1A1A] rounded-xl p-4 min-h-[200px] min-w-[260px] flex-1 transition-colors ${
         isOver ? 'ring-2 ring-[#F97316]/40' : ''
       }`}
@@ -135,7 +146,7 @@ function DroppableColumn({
         <h3 className="text-sm font-semibold text-[#F5F5F5]">
           {STATUS_LABELS[status]}
         </h3>
-        <span className="text-xs text-[#6B7280] bg-[#0F0F0F] px-2 py-0.5 rounded-full">
+        <span className="text-xs text-[#6B7280] bg-[#0F0F0F] px-2 py-0.5 rounded-full" aria-label={`${tasks.length} tasks`}>
           {tasks.length}
         </span>
       </div>
@@ -202,7 +213,7 @@ export default function KanbanBoard({ projectId }: { projectId: string }) {
       collisionDetection={closestCorners}
       onDragEnd={handleDragEnd}
     >
-      <div className="flex gap-4 overflow-x-auto pb-4">
+      <div aria-label="Kanban board" className="flex gap-4 overflow-x-auto pb-4">
         {STATUS_COLUMNS.map((status) => (
           <DroppableColumn
             key={status}

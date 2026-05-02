@@ -30,8 +30,11 @@ export default function MindMapNodeComponent({ data, selected }: NodeProps) {
       <span className="text-sm font-medium text-[#F5F5F5]">{label as string}</span>
 
       {linkedTaskId && (
-        <span className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-[#F97316]">
-          <Link size={10} className="text-white" />
+        <span
+          aria-label="Linked to task"
+          className="absolute -top-2 -right-2 flex h-5 w-5 items-center justify-center rounded-full bg-[#F97316]"
+        >
+          <Link size={10} aria-hidden="true" className="text-white" />
         </span>
       )}
 

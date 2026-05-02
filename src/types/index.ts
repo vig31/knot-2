@@ -6,7 +6,29 @@ export interface UserProfile {
   avatarUrl?: string
   orgId: string
   role: 'owner' | 'admin' | 'member'
+  googleCalendarConnected?: boolean
   createdAt: Date
+}
+
+// ── Google Calendar Integration ──
+export interface GoogleCalendarToken {
+  userId: string
+  accessToken: string
+  refreshToken: string
+  expiresAt: number
+  connectedAt: Date
+}
+
+export interface CalendarEvent {
+  id: string
+  taskId: string
+  googleEventId: string
+  calendarId: string
+  title: string
+  description?: string
+  startDateTime: string
+  endDateTime: string
+  syncedAt: Date
 }
 
 export interface Organization {

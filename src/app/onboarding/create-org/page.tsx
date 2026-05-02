@@ -24,7 +24,7 @@ export default function CreateOrgPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#0F0F0F] px-4">
+    <main id="main-content" className="flex min-h-screen items-center justify-center bg-[#0F0F0F] px-4">
       <div className="w-full max-w-md rounded-xl border border-[#2A2A2A] bg-[#1A1A1A] p-8">
         {/* Brand */}
         <div className="mb-8 text-center">
@@ -39,9 +39,9 @@ export default function CreateOrgPage() {
           </p>
         </div>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-5">
+        <form onSubmit={handleSubmit} aria-label="Create workspace" className="flex flex-col gap-5">
           {error && (
-            <p className="rounded-lg bg-red-500/10 px-4 py-2 text-sm text-red-400">
+            <p role="alert" className="rounded-lg bg-red-500/10 px-4 py-2 text-sm text-red-400">
               {error}
             </p>
           )}
@@ -62,11 +62,17 @@ export default function CreateOrgPage() {
 
           {/* Logo upload placeholder */}
           <div className="flex flex-col gap-1.5">
-            <label className="text-sm text-[#6B7280]">
+            <label htmlFor="logo-upload" className="text-sm text-[#6B7280]">
               Logo <span className="text-[#6B7280]/60">(optional)</span>
             </label>
-            <div className="flex flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-[#2A2A2A] px-6 py-8 text-[#6B7280] transition-colors hover:border-[#F97316]/40">
-              <Upload size={24} />
+            <div
+              id="logo-upload"
+              role="button"
+              tabIndex={0}
+              aria-label="Upload logo — click or drag a file"
+              className="flex flex-col items-center justify-center gap-2 rounded-lg border-2 border-dashed border-[#2A2A2A] px-6 py-8 text-[#6B7280] transition-colors hover:border-[#F97316]/40"
+            >
+              <Upload size={24} aria-hidden="true" />
               <span className="text-sm">Click or drag to upload</span>
             </div>
           </div>
@@ -79,6 +85,6 @@ export default function CreateOrgPage() {
           </button>
         </form>
       </div>
-    </div>
+    </main>
   )
 }

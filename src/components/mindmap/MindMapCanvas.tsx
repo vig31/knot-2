@@ -164,6 +164,8 @@ function MindMapCanvasInner() {
       className="h-full w-full"
       onKeyDown={onKeyDown}
       tabIndex={0}
+      role="application"
+      aria-label="Mind map canvas. Double-click to add a node. Select a node and press Delete to remove it."
     >
       <ReactFlow
         nodes={nodes}

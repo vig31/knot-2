@@ -82,10 +82,11 @@ export default function Home() {
     <div className="min-h-screen bg-[#0F0F0F] text-[#F5F5F5]">
       <Navbar />
 
+      <main id="main-content">
       {/* ─── Hero ─── */}
       <section className="relative flex flex-col items-center px-6 pt-36 pb-24 text-center">
         {/* Subtle radial glow */}
-        <div className="pointer-events-none absolute top-0 left-1/2 -z-10 h-[600px] w-[800px] -translate-x-1/2 rounded-full bg-[#F97316]/5 blur-[120px]" />
+        <div aria-hidden="true" className="pointer-events-none absolute top-0 left-1/2 -z-10 h-[600px] w-[800px] -translate-x-1/2 rounded-full bg-[#F97316]/5 blur-[120px]" />
 
         <h1 className="max-w-3xl text-4xl font-bold leading-tight tracking-tight sm:text-5xl md:text-6xl">
           Where teams think, talk, and build —{' '}
@@ -98,11 +99,11 @@ export default function Home() {
           href="/register"
           className="mt-10 inline-flex items-center gap-2 rounded-lg bg-[#F97316] px-8 py-3.5 font-medium text-white transition-colors hover:bg-[#EA580C]"
         >
-          Get Started Free <ArrowRight size={18} />
+          Get Started Free <ArrowRight size={18} aria-hidden="true" />
         </Link>
 
         {/* Screenshot mockup placeholder */}
-        <div className="mt-16 w-full max-w-4xl overflow-hidden rounded-2xl border border-[#2A2A2A] bg-[#1A1A1A] p-1">
+        <div aria-hidden="true" className="mt-16 w-full max-w-4xl overflow-hidden rounded-2xl border border-[#2A2A2A] bg-[#1A1A1A] p-1">
           <div className="rounded-xl bg-[#0F0F0F] p-6">
             {/* Fake window chrome */}
             <div className="mb-6 flex items-center gap-2">
@@ -173,7 +174,7 @@ export default function Home() {
               className="group rounded-xl border border-[#2A2A2A] bg-[#1A1A1A] p-6 transition-colors hover:border-[#F97316]/40"
             >
               <div className="mb-4 flex h-12 w-12 items-center justify-center rounded-lg bg-[#F97316]/10 text-[#F97316]">
-                <f.icon size={24} />
+                <f.icon size={24} aria-hidden="true" />
               </div>
               <h3 className="text-lg font-semibold text-[#F5F5F5]">{f.title}</h3>
               <p className="mt-2 text-sm leading-relaxed text-[#6B7280]">{f.description}</p>
@@ -217,12 +218,12 @@ export default function Home() {
                 key={t.name}
                 className="rounded-xl border border-[#2A2A2A] bg-[#1A1A1A] p-6"
               >
-                <Quote size={20} className="mb-3 text-[#F97316]/50" />
+                <Quote size={20} aria-hidden="true" className="mb-3 text-[#F97316]/50" />
                 <p className="text-sm leading-relaxed text-[#F5F5F5]/80">
                   &ldquo;{t.review}&rdquo;
                 </p>
                 <div className="mt-5 flex items-center gap-3">
-                  <div className="flex h-10 w-10 items-center justify-center rounded-full bg-[#2A2A2A] text-xs font-bold text-[#F97316]">
+                  <div aria-hidden="true" className="flex h-10 w-10 items-center justify-center rounded-full bg-[#2A2A2A] text-xs font-bold text-[#F97316]">
                     {t.avatar}
                   </div>
                   <div>
@@ -253,14 +254,16 @@ export default function Home() {
               href="/register"
               className="mt-8 inline-flex items-center gap-2 rounded-lg bg-[#F97316] px-8 py-3.5 font-medium text-white transition-colors hover:bg-[#EA580C]"
             >
-              Get Started Free <ArrowRight size={18} />
+              Get Started Free <ArrowRight size={18} aria-hidden="true" />
             </Link>
           </div>
         </div>
       </section>
 
+      </main>
+
       {/* ─── Footer ─── */}
-      <footer className="border-t border-[#2A2A2A]">
+      <footer aria-label="Site footer" className="border-t border-[#2A2A2A]">
         <div className="mx-auto max-w-6xl px-6 py-16">
           <div className="grid gap-12 sm:grid-cols-2 lg:grid-cols-4">
             {/* Brand column */}

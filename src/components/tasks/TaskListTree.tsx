@@ -149,12 +149,14 @@ function TreeRow({
                 e.stopPropagation()
                 toggleCollapse(task.id)
               }}
+              aria-expanded={!isCollapsed}
+              aria-label={`${isCollapsed ? 'Expand' : 'Collapse'} ${task.title} subtasks`}
               className="text-[#6B7280] hover:text-[#F5F5F5] p-0.5"
             >
               {isCollapsed ? (
-                <ChevronRight size={14} />
+                <ChevronRight size={14} aria-hidden="true" />
               ) : (
-                <ChevronDown size={14} />
+                <ChevronDown size={14} aria-hidden="true" />
               )}
             </button>
           ) : (
@@ -162,6 +164,7 @@ function TreeRow({
           )}
 
           <span
+            aria-hidden="true"
             className="w-2.5 h-2.5 rounded-full flex-shrink-0"
             style={{ backgroundColor: TASK_TYPE_COLORS[task.type] }}
           />
@@ -184,6 +187,7 @@ function TreeRow({
             }}
           >
             <span
+              aria-hidden="true"
               className="w-1.5 h-1.5 rounded-full"
               style={{ backgroundColor: STATUS_COLORS[task.status] }}
             />
@@ -195,7 +199,7 @@ function TreeRow({
         <div className="flex items-center">
           {initials ? (
             <div className="flex items-center gap-1.5">
-              <div className="w-5 h-5 rounded-full bg-[#F97316]/30 flex items-center justify-center text-[9px] font-medium text-[#F97316]">
+              <div aria-hidden="true" className="w-5 h-5 rounded-full bg-[#F97316]/30 flex items-center justify-center text-[9px] font-medium text-[#F97316]">
                 {initials}
               </div>
               <span className="text-xs text-[#6B7280] truncate">
@@ -211,7 +215,7 @@ function TreeRow({
         <div className="flex items-center">
           {task.dueDate ? (
             <div className="flex items-center gap-1 text-xs text-[#6B7280]">
-              <Calendar size={10} />
+              <Calendar size={10} aria-hidden="true" />
               <span>{task.dueDate}</span>
             </div>
           ) : (

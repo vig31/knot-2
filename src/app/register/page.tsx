@@ -34,7 +34,7 @@ export default function RegisterPage() {
   }
 
   return (
-    <div className="flex min-h-screen items-center justify-center bg-[#0F0F0F] px-4">
+    <main id="main-content" className="flex min-h-screen items-center justify-center bg-[#0F0F0F] px-4">
       <div className="w-full max-w-md rounded-xl border border-[#2A2A2A] bg-[#1A1A1A] p-8">
         {/* Brand */}
         <div className="mb-8 text-center">
@@ -44,9 +44,9 @@ export default function RegisterPage() {
           <p className="mt-2 text-sm text-[#6B7280]">Create your account</p>
         </div>
 
-        <form onSubmit={handleSubmit} className="flex flex-col gap-4">
+        <form onSubmit={handleSubmit} aria-label="Create account" className="flex flex-col gap-4">
           {error && (
-            <p className="rounded-lg bg-red-500/10 px-4 py-2 text-sm text-red-400">
+            <p role="alert" className="rounded-lg bg-red-500/10 px-4 py-2 text-sm text-red-400">
               {error}
             </p>
           )}
@@ -122,6 +122,6 @@ export default function RegisterPage() {
           </Link>
         </p>
       </div>
-    </div>
+    </main>
   )
 }

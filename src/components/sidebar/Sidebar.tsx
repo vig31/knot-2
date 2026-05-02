@@ -76,7 +76,7 @@ export function Sidebar() {
   if (!sidebarOpen) return null
 
   return (
-    <aside className="w-[260px] shrink-0 bg-[#1A1A1A] border-r border-[#2A2A2A] flex flex-col h-full overflow-y-auto">
+    <aside aria-label="Application sidebar" className="w-[260px] shrink-0 bg-[#1A1A1A] border-r border-[#2A2A2A] flex flex-col h-full overflow-y-auto">
       {/* Org + User header */}
       <div className="px-4 py-4 border-b border-[#2A2A2A]">
         <h1 className="text-base font-bold text-[#F5F5F5]">Knot Labs</h1>
@@ -91,16 +91,16 @@ export function Sidebar() {
       </div>
 
       {/* Scrollable nav */}
-      <nav className="flex-1 py-3 overflow-y-auto">
+      <nav aria-label="Main navigation" className="flex-1 py-3 overflow-y-auto">
         {/* ── CHAT ── */}
-        <SectionHeader label="Chat" icon={<MessageSquare size={14} />} />
+        <SectionHeader label="Chat" icon={<MessageSquare size={14} aria-hidden="true" />} />
 
         {/* Group channels */}
         {groupChannels.map((ch) => {
           const href = `/app/${orgId}/chat/${ch.id}`
           return (
             <NavItem key={ch.id} href={href} active={isActive(href)}>
-              <Hash size={16} className="shrink-0 text-[#6B7280]" />
+              <Hash size={16} aria-hidden="true" className="shrink-0 text-[#6B7280]" />
               <span className="truncate">{ch.name}</span>
               {ch.unreadCount > 0 && <UnreadBadge count={ch.unreadCount} />}
             </NavItem>
@@ -110,65 +110,69 @@ export function Sidebar() {
         {/* DMs */}
         <button
           onClick={() => setDmExpanded((v) => !v)}
+          aria-expanded={dmExpanded}
+          aria-controls="dm-channel-list"
           className="flex items-center gap-1 px-4 py-1.5 text-xs text-[#6B7280] hover:text-[#F5F5F5] w-full transition-colors"
         >
-          {dmExpanded ? <ChevronDown size={14} /> : <ChevronRight size={14} />}
-          <Users size={14} />
+          {dmExpanded ? <ChevronDown size={14} aria-hidden="true" /> : <ChevronRight size={14} aria-hidden="true" />}
+          <Users size={14} aria-hidden="true" />
           <span>Direct Messages</span>
         </button>
-        {dmExpanded &&
-          dmChannels.map((ch) => {
-            const href = `/app/${orgId}/chat/${ch.id}`
-            return (
-              <NavItem key={ch.id} href={href} active={isActive(href)}>
-                <div className="w-5 h-5 rounded-full bg-[#2A2A2A] flex items-center justify-center text-[10px] font-bold text-[#F5F5F5] shrink-0">
-                  {getInitials(getDmDisplayName(ch))}
-                </div>
-                <span className="truncate">{getDmDisplayName(ch)}</span>
-                {ch.unreadCount > 0 && <UnreadBadge count={ch.unreadCount} />}
-              </NavItem>
-            )
-          })}
+        <div id="dm-channel-list">
+          {dmExpanded &&
+            dmChannels.map((ch) => {
+              const href = `/app/${orgId}/chat/${ch.id}`
+              return (
+                <NavItem key={ch.id} href={href} active={isActive(href)}>
+                  <div aria-hidden="true" className="w-5 h-5 rounded-full bg-[#2A2A2A] flex items-center justify-center text-[10px] font-bold text-[#F5F5F5] shrink-0">
+                    {getInitials(getDmDisplayName(ch))}
+                  </div>
+                  <span className="truncate">{getDmDisplayName(ch)}</span>
+                  {ch.unreadCount > 0 && <UnreadBadge count={ch.unreadCount} />}
+                </NavItem>
+              )
+            })}
+        </div>
 
         {/* New Channel */}
         <button
           onClick={handleCreateGroup}
           className="flex items-center gap-2 px-4 py-2 mx-2 text-sm text-[#6B7280] hover:text-[#F97316] transition-colors cursor-pointer"
         >
-          <Plus size={16} />
+          <Plus size={16} aria-hidden="true" />
           <span>New Channel</span>
         </button>
 
         {/* ── TASKS ── */}
-        <SectionHeader label="Tasks" icon={<CheckSquare size={14} />} />
+        <SectionHeader label="Tasks" icon={<CheckSquare size={14} aria-hidden="true" />} />
         {Object.values(projects).map((p) => {
           const href = `/app/${orgId}/tasks/${p.id}`
           const isTaskActive = pathname.startsWith(`/app/${orgId}/tasks/${p.id}`)
           return (
             <NavItem key={p.id} href={href} active={isTaskActive}>
-              <div className="w-3 h-3 rounded-sm shrink-0" style={{ backgroundColor: p.color }} />
+              <div aria-hidden="true" className="w-3 h-3 rounded-sm shrink-0" style={{ backgroundColor: p.color }} />
               <span className="truncate">{p.name}</span>
             </NavItem>
           )
         })}
         <button className="flex items-center gap-2 px-4 py-2 mx-2 text-sm text-[#6B7280] hover:text-[#F97316] transition-colors cursor-pointer">
-          <Plus size={16} />
+          <Plus size={16} aria-hidden="true" />
           <span>New Project</span>
         </button>
 
         {/* ── MIND MAPS ── */}
-        <SectionHeader label="Mind Maps" icon={<GitBranch size={14} />} />
+        <SectionHeader label="Mind Maps" icon={<GitBranch size={14} aria-hidden="true" />} />
         {Object.values(maps).map((m) => {
           const href = `/app/${orgId}/mindmap/${m.id}`
           return (
             <NavItem key={m.id} href={href} active={isActive(href)}>
-              <GitBranch size={16} className="shrink-0 text-[#6B7280]" />
+              <GitBranch size={16} aria-hidden="true" className="shrink-0 text-[#6B7280]" />
               <span className="truncate">{m.name}</span>
             </NavItem>
           )
         })}
         <button className="flex items-center gap-2 px-4 py-2 mx-2 text-sm text-[#6B7280] hover:text-[#F97316] transition-colors cursor-pointer">
-          <Plus size={16} />
+          <Plus size={16} aria-hidden="true" />
           <span>New Map</span>
         </button>
       </nav>
@@ -176,14 +180,14 @@ export function Sidebar() {
       {/* Bottom section */}
       <div className="border-t border-[#2A2A2A] py-2">
         <NavItem href="/app/settings?orgId=org1" active={isActive('/app/settings')}>
-          <Settings size={16} className="shrink-0 text-[#6B7280]" />
+          <Settings size={16} aria-hidden="true" className="shrink-0 text-[#6B7280]" />
           <span>Settings</span>
         </NavItem>
         <button
           onClick={handleLogout}
           className="flex items-center gap-2 px-4 py-2 mx-2 text-sm text-[#6B7280] hover:text-red-400 w-full rounded-md transition-colors cursor-pointer"
         >
-          <LogOut size={16} />
+          <LogOut size={16} aria-hidden="true" />
           <span>Logout</span>
         </button>
       </div>
@@ -227,7 +231,10 @@ function NavItem({
 
 function UnreadBadge({ count }: { count: number }) {
   return (
-    <span className="ml-auto flex items-center justify-center min-w-[20px] h-5 rounded-full bg-[#F97316] text-white text-xs font-bold px-1.5">
+    <span
+      aria-label={`${count} unread`}
+      className="ml-auto flex items-center justify-center min-w-[20px] h-5 rounded-full bg-[#F97316] text-white text-xs font-bold px-1.5"
+    >
       {count}
     </span>
   )
