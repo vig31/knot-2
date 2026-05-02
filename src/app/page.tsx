@@ -1,3 +1,4 @@
+import Image from 'next/image'
 import Link from 'next/link'
 import { MessageSquare, CheckSquare, GitBranch, ArrowRight, Quote } from 'lucide-react'
 import Navbar from '@/components/landing/Navbar'

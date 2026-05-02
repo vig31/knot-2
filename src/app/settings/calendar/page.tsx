@@ -6,12 +6,12 @@
 'use client'
 
 import React, { useState, useEffect } from 'react'
-import { useAuth } from '@/hooks/useAuth'
+import { useAuthStore } from '@/stores/authStore'
 import { useGoogleCalendar } from '@/hooks/useGoogleCalendar'
 import { Calendar, CheckCircle, AlertCircle, Loader } from 'lucide-react'
 
 export default function CalendarSettings() {
-  const { user } = useAuth()
+  const user = useAuthStore((s) => s.user)
   const { connectCalendar, isConnecting } = useGoogleCalendar()
   const [isConnected, setIsConnected] = useState(false)
   const [connectionDate, setConnectionDate] = useState<string | null>(null)
