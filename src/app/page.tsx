@@ -103,60 +103,16 @@ export default function Home() {
           Get Started Free <ArrowRight size={18} aria-hidden="true" />
         </Link>
 
-        {/* Screenshot mockup placeholder */}
-        <div aria-hidden="true" className="mt-16 w-full max-w-4xl overflow-hidden rounded-2xl border border-[#2A2A2A] bg-[#1A1A1A] p-1">
-          <div className="rounded-xl bg-[#0F0F0F] p-6">
-            {/* Fake window chrome */}
-            <div className="mb-6 flex items-center gap-2">
-              <div className="h-3 w-3 rounded-full bg-[#EF4444]/60" />
-              <div className="h-3 w-3 rounded-full bg-[#EAB308]/60" />
-              <div className="h-3 w-3 rounded-full bg-[#22C55E]/60" />
-              <div className="ml-4 h-5 w-48 rounded bg-[#2A2A2A]" />
-            </div>
-            {/* Fake UI skeleton */}
-            <div className="flex gap-4">
-              {/* Sidebar */}
-              <div className="hidden w-48 flex-col gap-3 rounded-lg bg-[#1A1A1A] p-4 sm:flex">
-                <div className="h-4 w-24 rounded bg-[#2A2A2A]" />
-                <div className="h-3 w-32 rounded bg-[#2A2A2A]/60" />
-                <div className="h-3 w-28 rounded bg-[#2A2A2A]/60" />
-                <div className="h-3 w-36 rounded bg-[#F97316]/30" />
-                <div className="h-3 w-20 rounded bg-[#2A2A2A]/60" />
-                <div className="mt-4 h-4 w-20 rounded bg-[#2A2A2A]" />
-                <div className="h-3 w-24 rounded bg-[#2A2A2A]/60" />
-                <div className="h-3 w-28 rounded bg-[#2A2A2A]/60" />
-              </div>
-              {/* Main content */}
-              <div className="flex flex-1 flex-col gap-3 rounded-lg bg-[#1A1A1A] p-4">
-                <div className="h-4 w-40 rounded bg-[#2A2A2A]" />
-                <div className="flex flex-col gap-2 mt-2">
-                  <div className="flex items-start gap-3">
-                    <div className="h-8 w-8 flex-shrink-0 rounded-full bg-[#F97316]/20" />
-                    <div className="flex flex-col gap-1">
-                      <div className="h-3 w-20 rounded bg-[#2A2A2A]" />
-                      <div className="h-3 w-64 rounded bg-[#2A2A2A]/50" />
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <div className="h-8 w-8 flex-shrink-0 rounded-full bg-[#22C55E]/20" />
-                    <div className="flex flex-col gap-1">
-                      <div className="h-3 w-24 rounded bg-[#2A2A2A]" />
-                      <div className="h-3 w-72 rounded bg-[#2A2A2A]/50" />
-                      <div className="h-3 w-48 rounded bg-[#2A2A2A]/50" />
-                    </div>
-                  </div>
-                  <div className="flex items-start gap-3">
-                    <div className="h-8 w-8 flex-shrink-0 rounded-full bg-[#F97316]/20" />
-                    <div className="flex flex-col gap-1">
-                      <div className="h-3 w-20 rounded bg-[#2A2A2A]" />
-                      <div className="h-3 w-56 rounded bg-[#2A2A2A]/50" />
-                    </div>
-                  </div>
-                </div>
-                <div className="mt-auto h-10 rounded-lg border border-[#2A2A2A] bg-[#0F0F0F]" />
-              </div>
-            </div>
-          </div>
+        {/* App screenshot */}
+        <div className="mt-16 w-full max-w-4xl overflow-hidden rounded-2xl border border-[#2A2A2A] shadow-2xl shadow-black/60">
+          <Image
+            src="/screenshot.png"
+            alt="Knot app showing the mind map view with a product roadmap"
+            width={1456}
+            height={816}
+            className="w-full"
+            priority
+          />
         </div>
       </section>
 
