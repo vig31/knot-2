@@ -15,18 +15,22 @@ interface AuthStore {
 }
 
 export const useAuthStore = create<AuthStore>((set) => ({
-  user: mockUsers[0],
-  orgId: mockOrg.id,
+  user: null,
+  orgId: null,
   isLoading: false,
   error: null,
   members: mockUsers,
 
-  login: (email: string) => {
+  login: (email: string, password: string) => {
+    if (!email || !password) {
+      set({ error: 'Email and password are required.' })
+      return
+    }
     const found = mockUsers.find((u) => u.email === email)
     if (found) {
       set({ user: found, orgId: mockOrg.id, error: null })
     } else {
-      set({ user: mockUsers[0], orgId: mockOrg.id, error: null })
+      set({ error: 'Invalid email or password.' })
     }
   },
 

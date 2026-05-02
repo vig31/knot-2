@@ -1,6 +1,7 @@
 import { create } from 'zustand'
 import type { Channel, Message } from '@/types'
 import { mockChannels, mockMessages } from '@/data/mockData'
+import { useAuthStore } from '@/stores/authStore'
 
 interface ChatStore {
   channels: Record<string, Channel>
@@ -18,10 +19,11 @@ export const useChatStore = create<ChatStore>((set, get) => ({
   activeChannelId: null,
 
   sendMessage: (channelId, content) => {
+    const user = useAuthStore.getState().user
     const msg: Message = {
       id: `m-${Date.now()}`,
-      senderId: 'u1',
-      senderName: 'Vignesh K',
+      senderId: user?.uid ?? 'unknown',
+      senderName: user?.name ?? 'Unknown',
       content,
       timestamp: new Date(),
       channelId,

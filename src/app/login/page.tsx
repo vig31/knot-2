@@ -1,6 +1,6 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useEffect } from 'react'
 import { useRouter } from 'next/navigation'
 import Link from 'next/link'
 import { useAuthStore } from '@/stores/authStore'
@@ -8,19 +8,29 @@ import { useAuthStore } from '@/stores/authStore'
 export default function LoginPage() {
   const router = useRouter()
   const login = useAuthStore((s) => s.login)
+  const storeError = useAuthStore((s) => s.error)
+  const user = useAuthStore((s) => s.user)
 
   const [email, setEmail] = useState('')
   const [password, setPassword] = useState('')
-  const [error, setError] = useState('')
+  const [localError, setLocalError] = useState('')
+
+  const error = localError || storeError || ''
+
+  useEffect(() => {
+    if (user) {
+      router.push('/app/org1/chat/c1')
+    }
+  }, [user, router])
 
   const handleSubmit = (e: React.FormEvent) => {
     e.preventDefault()
+    setLocalError('')
     if (!email || !password) {
-      setError('Please fill in all fields.')
+      setLocalError('Please fill in all fields.')
       return
     }
     login(email, password)
-    router.push('/app/org1/chat/c1')
   }
 
   return (

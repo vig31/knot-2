@@ -104,6 +104,7 @@ export function ChatPanel({ channelId }: { channelId: string }) {
             onChange={(e) => setInput(e.target.value)}
             onKeyDown={handleKeyDown}
             placeholder={`Message ${getChannelDisplayName()}`}
+          maxLength={4000}
             className="flex-1 bg-[#1A1A1A] border border-[#2A2A2A] rounded-lg px-4 py-3 text-sm text-[#F5F5F5] placeholder-[#6B7280] outline-none focus:border-[#F97316] transition-colors"
           />
           <button
