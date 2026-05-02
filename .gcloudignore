@@ -2,9 +2,11 @@
 .git
 .gitignore
 .firebase
-node_modules
 .env.local
 *.log
+.next
+out
+node_modules
 tsconfig.tsbuildinfo
 postcss.config.mjs
 eslint.config.mjs
@@ -13,3 +15,7 @@ AGENTS.md
 CLAUDE.md
 PRD_TeamCollab.md
 README.md
+GOOGLE_CALENDAR_INTEGRATION.md
+SETUP_CHECKLIST.md
+jest.config.ts
+src/__tests__

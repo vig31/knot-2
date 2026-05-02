@@ -5,6 +5,14 @@ entrypoint: node .next/standalone/server.js
 automatic_scaling:
   max_instances: 5
 
+build_env_variables:
+  NEXT_PUBLIC_FIREBASE_API_KEY: "AIzaSyA6YludSEnJoMM5gcBhG0tKsET5HkU0m8Q"
+  NEXT_PUBLIC_FIREBASE_AUTH_DOMAIN: "knot-ef775.firebaseapp.com"
+  NEXT_PUBLIC_FIREBASE_PROJECT_ID: "knot-ef775"
+  NEXT_PUBLIC_FIREBASE_STORAGE_BUCKET: "knot-ef775.firebasestorage.app"
+  NEXT_PUBLIC_FIREBASE_MESSAGING_SENDER_ID: "305984074964"
+  NEXT_PUBLIC_FIREBASE_APP_ID: "1:305984074964:web:a8880d77ac32b193fbf741"
+
 env_variables:
   NODE_ENV: production
   PORT: "8080"
