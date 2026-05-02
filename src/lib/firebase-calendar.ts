@@ -3,16 +3,12 @@
  * Stores encrypted tokens in Firestore
  */
 
-import { db } from './firebase'
+import { getFirebaseDb } from './firebase'
 import {
-  collection,
   doc,
   setDoc,
   getDoc,
   deleteDoc,
-  query,
-  where,
-  getDocs,
 } from 'firebase/firestore'
 import { GoogleCalendarToken } from '@/types'
 
@@ -27,6 +23,7 @@ export async function saveGoogleToken(
   refreshToken: string | null,
   expiresIn: number
 ): Promise<void> {
+  const db = getFirebaseDb()
   const expiresAt = Date.now() + expiresIn * 1000
 
   const tokenData = {
@@ -50,6 +47,7 @@ export async function saveGoogleToken(
 export async function getGoogleToken(
   userId: string
 ): Promise<GoogleCalendarToken | null> {
+  const db = getFirebaseDb()
   const docRef = doc(db, TOKENS_COLLECTION, userId)
   const docSnap = await getDoc(docRef)
 
@@ -75,6 +73,7 @@ export async function updateAccessToken(
   accessToken: string,
   expiresIn: number
 ): Promise<void> {
+  const db = getFirebaseDb()
   const expiresAt = Date.now() + expiresIn * 1000
 
   const docRef = doc(db, TOKENS_COLLECTION, userId)
@@ -93,6 +92,7 @@ export async function updateAccessToken(
  * Delete Google Calendar token (disconnect calendar)
  */
 export async function deleteGoogleToken(userId: string): Promise<void> {
+  const db = getFirebaseDb()
   const docRef = doc(db, TOKENS_COLLECTION, userId)
   await deleteDoc(docRef)
 }
