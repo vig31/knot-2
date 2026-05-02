@@ -1,0 +1,9 @@
+runtime: nodejs22
+instance_class: F1
+entrypoint: node server.js
+
+automatic_scaling:
+  max_instances: 5
+
+env_variables:
+  NODE_ENV: production
